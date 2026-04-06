@@ -1,70 +1,159 @@
-# Getting Started with Create React App
+# 🚀 AI-Based Performance Management System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 📌 Overview
 
-## Available Scripts
+This project is an **AI-powered Performance Management System** that automatically generates structured 360-degree feedback forms based on employee role, experience, and evaluation sections.
 
-In the project directory, you can run:
+It uses **Flask (backend)** and **LangChain with LLM (Groq - LLaMA model)** to generate intelligent and structured responses.
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🎯 Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+* Generate **role-based feedback forms**
+* AI-powered question generation
+* Structured JSON output
+* REST API using Flask
+* Easy integration with frontend (React)
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🛠️ Tech Stack
 
-### `npm run build`
+* Python
+* Flask
+* LangChain
+* Groq API (LLaMA model)
+* dotenv (for environment variables)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 📂 Project Structure
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+pms-main/
+│── app.py          # Main Flask app
+│── api.py          # API and AI logic
+│── .env            # API keys (not pushed to GitHub)
+│── requirements.txt
+│── README.md
+```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## ⚙️ Installation
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 1️⃣ Clone the repository
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+git clone <your-repo-link>
+cd pms-main
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+### 2️⃣ Create virtual environment
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```
+python -m venv venv
+venv\Scripts\activate
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+### 3️⃣ Install dependencies
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+pip install langchain==0.0.350
+pip install langchain-groq==0.0.1
+pip install flask python-dotenv flask-cors
+```
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 4️⃣ Setup environment variables
 
-### Making a Progressive Web App
+Create a `.env` file and add:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+API_KEY=your_groq_api_key_here
+```
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### 5️⃣ Run the application
 
-### Deployment
+```
+python app.py
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## 🔌 API Endpoint
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### ➤ Generate Feedback Form
+
+**POST** `/form_generation`
+
+#### Request Body:
+
+```
+{
+  "role": "Software Engineer",
+  "experience": "2 years",
+  "sections": ["team_collaboration", "performance"]
+}
+```
+
+#### Response:
+
+```
+{
+  "employee_information": {
+    "role": "Software Engineer",
+    "experience": "2 years"
+  },
+  "feedback_sections": {
+    ...
+  }
+}
+```
+
+---
+
+## 💡 How It Works
+
+1. User sends input via API
+2. Flask receives request
+3. LangChain processes prompt
+4. LLM generates structured feedback
+5. JSON response is returned
+
+---
+
+## 🚧 Challenges Faced
+
+* Handling **strict JSON output from LLM**
+* Managing **LangChain dependency conflicts**
+* Ensuring **API key security**
+
+---
+
+## 🔮 Future Improvements
+
+* Add React frontend UI
+* Store data in database
+* Deploy on Azure
+* Add authentication system
+
+---
+
+## 👨‍💻 Author
+
+Anil Kumar
+
+---
+
+## ⭐ Contribution
+
+Feel free to fork and contribute to this project!
