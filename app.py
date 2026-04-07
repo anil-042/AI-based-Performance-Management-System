@@ -1,93 +1,91 @@
-
+from flask import Flask, request, jsonify
+from flask_cors import CORS
 from langchain_groq import ChatGroq
-from langchain.chains.llm import LLMChain
-from langchain.prompts import ChatPromptTemplate
 from dotenv import load_dotenv
-from flask import Flask,request,jsonify
 import os
-import ast
+import json
+
+# Load env
+load_dotenv()
 
 app = Flask(__name__)
+CORS(app)
 
-@app.route("/form_generation", methods = ["POST"])
+# Initialize LLM
+llm = ChatGroq(
+    model="llama-3.1-8b-instant",
+    api_key=os.getenv("API_KEY"),
+    temperature=0.5
+)
+
+
+@app.route("/form_generation", methods=["POST"])
 def form_generation():
+    try:
+        data = request.json
 
-  data = request.json
+        role = data.get("role")
+        experience = data.get("experience")
+        sections = data.get("sections")
 
-  role = data["role"]
-  experience=data["experience"]
-  section= data["sections"]
-  load_dotenv()
-  a=os.getenv("API_KEY")
-  
-  llm = ChatGroq(
-      model="llama-3.1-8b-instant",  
-      api_key=a,
-      temperature=1
-  )
+        feedback_sections = {}
 
-  feedback_prompt = ChatPromptTemplate.from_template("""
-  You are an expert HR system helping to generate structured 360-degree performance feedback forms.
-  
-  Generate a performance feedback form as a **strict JSON object** using the following inputs:
-  - Role: {role}
-  - Experience: {experience}
-  - Sections: A list of default section keys in snake_case format
-    (e.g., "core_performance_areas","team_collaboration","behavioral_cultural_fit")
-  
-  ### INSTRUCTIONS ###
-  
-  1. Output **only** a JSON object with this exact structure:
-  {{{{  
-    "employee_information": {{{{  
-      "role": string,
-      "experience": string
-    }}}},
-    "feedback_sections": {{{{  
-      "section_key_1": {{{{  
-        "questions": [
-          {{{{ "question_1": string }}}},
-          {{{{ "question_2": string }}}},
-          {{{{ "question_3": string }}}},
-          {{{{ "question_4": string }}}},
-          {{{{ "question_5": string }}}}
-        ]
-      }}}},
-      ...
-    }}}},
-    "open_ended_feedback": {{{{  
-      "areas_for_improvement": "",
-      "strengths": "",
-      "suggestions_for_growth": ""
-    }}}}
-  }}}}
-  
-  2. For each section:
-    - Generate 5 specific, observable, rateable questions with numbered keys.
-  
-  3. Add exactly 2 relevant extra sections for the role.
-  
-  ### STRICT RULES ###
-  - Return ONLY valid parsable JSON.
-  - NO markdown, NO comments, NO extra text.
-  - Use only double quotes.
-  - Use colons for key-value pairs and commas for separation.
-  
-  ### BEGIN ###76 A;L'
-  Role: {role}
-  Experience: {experience}
-  Sections: {default_sections}
-  """)
+        # 🔥 Generate questions per section
+        for section in sections:
+            prompt = f"""
+            Generate 5 role-specific performance evaluation questions.
 
-  
-  chain = LLMChain(llm=llm, prompt=feedback_prompt)
-  
-  response = chain.invoke({"role":role,"experience":experience,"default_sections":section})
+            Role: {role}
+            Experience: {experience}
+            Section: {section}
+
+            Return ONLY a JSON array like:
+            ["question1", "question2", "question3", "question4", "question5"]
+            """
+
+            response = llm.invoke(prompt)
+            output_text = response.content
+
+            # Extract JSON list safely
+            start = output_text.find("[")
+            end = output_text.rfind("]") + 1
+
+            if start == -1 or end == -1:
+                questions = ["Unable to generate questions"]
+            else:
+                try:
+                    questions = json.loads(output_text[start:end])
+                except:
+                    questions = ["Error parsing questions"]
+
+            # Format into required structure
+            formatted_questions = [
+                {f"question_{i+1}": q} for i, q in enumerate(questions[:5])
+            ]
+
+            feedback_sections[section] = {
+                "questions": formatted_questions
+            }
+
+        # 🔥 Final structured output
+        final_output = {
+            "employee_information": {
+                "role": role,
+                "experience": experience
+            },
+            "feedback_sections": feedback_sections,
+            "open_ended_feedback": {
+                "areas_for_improvement": f"What areas should a {role} improve?",
+                "strengths": f"What are the key strengths of this {role}?",
+                "suggestions_for_growth": f"What growth suggestions would you give for {experience} experience?"
+            }
+        }
+
+        return jsonify(final_output)
+
+    except Exception as e:
+        return jsonify({"error": str(e)})
 
 
-  return jsonify(response)
-
-
-
-if __name__ == '__main__':
-  app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
