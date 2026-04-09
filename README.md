@@ -57,6 +57,32 @@ Run Frontend
 Open index.html directly
 OR
 Use Live Server (VS Code extension)
+⚙️ How It Works
+
+The project follows a client-server architecture where the frontend interacts with a backend powered by a Large Language Model (LLM).
+
+🔄 Workflow
+User Input (Frontend)
+The user enters a query (e.g., feedback, question, or prompt) in the UI.
+This input is sent to the backend via an API request.
+
+API Request (Frontend → Backend)
+
+A POST request is sent to the Flask server:
+Backend Processing
+The Flask server receives the request.
+The input is passed to the LLM using LangChain.
+A prompt template structures the input for better results.
+LLM Response Generation
+The LLM (via Groq/OpenAI) processes the prompt.
+It generates a context-aware response based on input.
+
+Response Handling
+
+The backend formats the response into JSON:
+Display Output (Frontend)
+The frontend receives the response.
+It displays the result dynamically to the user.
 
 💡 Use Cases
 Chatbot systems
@@ -64,9 +90,6 @@ Automated feedback analysis
 Report generation
 Smart assistants
 NLP-based applications
-```
-
----
 🚧 Challenges Faced
 
 * Handling **strict JSON output from LLM**
@@ -86,6 +109,12 @@ NLP-based applications
 ## 👨‍💻 Author
 
 Anil Kumar
+
+---
+
+## ⭐ Contribution
+
+Feel free to fork and contribute to this project!
 
 ---
 
