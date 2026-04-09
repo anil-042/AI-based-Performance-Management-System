@@ -86,41 +86,6 @@ API_KEY=your_groq_api_key_here
 ```
 python app.py
 ```
-
----
-
-## 🔌 API Endpoint
-
-### ➤ Generate Feedback Form
-
-**POST** `/form_generation`
-
-#### Request Body:
-
-```
-{
-  "role": "Software Engineer",
-  "experience": "2 years",
-  "sections": ["team_collaboration", "performance"]
-}
-```
-
-#### Response:
-
-```
-{
-  "employee_information": {
-    "role": "Software Engineer",
-    "experience": "2 years"
-  },
-  "feedback_sections": {
-    ...
-  }
-}
-```
-
----
-
 ## 💡 How It Works
 
 1. User sends input via API
