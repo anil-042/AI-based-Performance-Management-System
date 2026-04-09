@@ -1,102 +1,73 @@
 # 🚀 AI-Based Performance Management System
+📌 Overview
 
-## 📌 Overview
+This project is a dynamic AI-powered application built using Large Language Models (LLMs). It processes user inputs and generates intelligent, context-aware responses using modern NLP techniques.
 
-This project is an **AI-powered Performance Management System** that automatically generates structured 360-degree feedback forms based on employee role, experience, and evaluation sections.
+The system is designed to be flexible, scalable, and interactive, making it suitable for applications like chatbots, feedback analysis, report generation, and more.
 
-It uses **Flask (backend)** and **LangChain with LLM (Groq - LLaMA model)** to generate intelligent and structured responses.
+✨ Features
+🤖 LLM-based intelligent response generation
+🔄 Dynamic input handling (user queries, feedback, etc.)
+🌐 REST API integration using Flask
+⚡ Fast and scalable backend
+🎯 Context-aware responses using prompt engineering
+🔗 Easy frontend-backend integration
 
----
+🛠️ Tech Stack
+Backend: Python, Flask
+LLM Integration: LangChain, Groq API (or OpenAI if used)
+Frontend: HTML, CSS, JavaScript (or React if applicable)
+Others: dotenv, Flask-CORS
 
-## 🎯 Features
-
-* Generate **role-based feedback forms**
-* AI-powered question generation
-* Structured JSON output
-* REST API using Flask
-* Easy integration with frontend (React)
-
----
-
-## 🛠️ Tech Stack
-
-* Python
-* Flask
-* LangChain
-* Groq API (LLaMA model)
-* dotenv (for environment variables)
-
----
-
-## 📂 Project Structure
-
-```
-pms-main/
-│── app.py          # Main Flask app
-│── api.py          # API and AI logic
-│── .env            # API keys (not pushed to GitHub)
+📂 Project Structure
+project/
+│── backend/
+│   ├── app.py
+│   ├── routes/
+│   ├── services/
+│   └── utils/
+│
+│── frontend/
+│   ├── index.html
+│   ├── script.js
+│   └── styles.css
+│
+│── .env
 │── requirements.txt
 │── README.md
-```
 
----
-
-## ⚙️ Installation
-
-### 1️⃣ Clone the repository
-
-```
-git clone <your-repo-link>
-cd pms-main
-```
-
----
-
-### 2️⃣ Create virtual environment
-
-```
+⚙️ Installation
+1️⃣ Clone the Repository
+git clone https://github.com/your-username/your-repo-name.git
+cd your-repo-name
+2️⃣ Create Virtual Environment
 python -m venv venv
-venv\Scripts\activate
-```
-
----
-
-### 3️⃣ Install dependencies
-
-```
-pip install langchain==0.0.350
-pip install langchain-groq==0.0.1
-pip install flask python-dotenv flask-cors
-```
-
----
-
-### 4️⃣ Setup environment variables
-
-Create a `.env` file and add:
-
-```
-API_KEY=your_groq_api_key_here
-```
-
----
-
-### 5️⃣ Run the application
-
-```
+source venv/bin/activate   # for Linux/Mac
+venv\Scripts\activate      # for Windows
+3️⃣ Install Dependencies
+pip install -r requirements.txt
+🔑 Environment Variables
+Ceate a .env file in the root directory:
+API_KEY=your_api_key_here
+MODEL_NAME=your_model
+▶️ Running the Project
+Start Backend
 python app.py
-```
-## 💡 How It Works
+Run Frontend
+Open index.html directly
+OR
+Use Live Server (VS Code extension)
 
-1. User sends input via API
-2. Flask receives request
-3. LangChain processes prompt
-4. LLM generates structured feedback
-5. JSON response is returned
+💡 Use Cases
+Chatbot systems
+Automated feedback analysis
+Report generation
+Smart assistants
+NLP-based applications
+```
 
 ---
-
-## 🚧 Challenges Faced
+🚧 Challenges Faced
 
 * Handling **strict JSON output from LLM**
 * Managing **LangChain dependency conflicts**
@@ -106,7 +77,6 @@ python app.py
 
 ## 🔮 Future Improvements
 
-* Add React frontend UI
 * Store data in database
 * Deploy on Azure
 * Add authentication system
